@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body data-bind="with: character">
+    <div class="container-fluid">
+        <div class="row">
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/koapp")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        // check local storage for saved char
+        var saved = ko.utils.parseJson(localStorage.getItem('5e-knockoutjs'));
+        var character = new character();
+        character.load(saved);
+        ko.applyBindings(character);
+
+
+    </script>
+</body>
+</html>
