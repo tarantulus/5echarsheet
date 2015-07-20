@@ -97,8 +97,8 @@
     self.unequip = function (item) {
         self.equipment.remove(item);
     },
-    self.currency = function (key, value) {
-        return ko.utils.unwrapObservable(key) + ':' + ko.utils.unwrapObservable(value);
+    self.currency = function (key) {
+        return ko.utils.unwrapObservable(key) + ':';
     },
     self.addWeapon = function () {
         self.weapons.push(utils.lookup(self.weaponSet(), self.selectedWeapon().name(), "name"));
@@ -109,4 +109,6 @@
                 return weapon.name() == self.selectedWeapon().name()
             });
     }
+
+    self.editing = ko.observable(false);
 };

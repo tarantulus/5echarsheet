@@ -4,15 +4,17 @@
 
 <!-- PRIMARY STATS -->
 <div class="col-md-4">
-    <div class="col-md-12">
+
+    <div class="col-md-12 input-group">
         <div id="statsForm" class="col-md-4 well">
             <h2>Stats</h2>
             <div data-bind="foreach:stats">
-                <input type="number" max="20" class="primaryStat" data-bind="value: $data.value" />
+                <input type="number" class="form-control" max="20" class="primaryStat form-control form-control" data-bind="value: $data.value" />
                 <label data-bind="text: $data.name"></label>
                 <p data-bind="text: $data.mod"></p>
             </div>
         </div>
+
         <div class="col-md-8">
             <h2><span class="block" data-bind="text: stats()[0].proficiencyBonus()"></span> Proficiency Bonus</h2>
             <div class="block">
@@ -37,9 +39,11 @@
                 </ul>
             </div>
         </div>
+
         <div class="col-md-12">
             <h2 class="block"><span class="block" data-bind="text: passivePerception()"></span> Passive Perception</h2>
         </div>
+
         <div class="col-md-12">
             <div class="block">
                 <h2>Proficiencies</h2>
@@ -52,66 +56,80 @@
                 </ul>
             </div>
         </div>
+
     </div>
 </div>
 
 <!-- SECONDARY STATS -->
 <div class="col-md-4">
     <div class="col-md-12 block">
-        <div class="col-md-3 block">
-            <input type="number" data-bind="value:ac" />
+        <div class="col-md-4 block label">
+            <input type="number" class="form-control" data-bind="value:ac" />
             <label>AC</label>
         </div>
-        <div class="col-md-3 block">
-            <input type="number" data-bind="value:init" />
+        <div class="col-md-4 block label">
+            <input type="number" class="form-control" data-bind="value:init" />
             <label>Init</label>
         </div>
-        <div class="col-md-3 block">
-            <input type="number" data-bind="value:speed" />
+        <div class="col-md-4 block label">
+            <input type="number" class="form-control" data-bind="value:speed" />
             <label>speed</label>
         </div>
-        <div class="col-md-10 block">
-            <p>Hp Max:<span data-bind="text:hpMax"></span></p>
-            <input type="number" data-bind="value:hpCurrent" />
+        <div class="col-md-12 block label">
+            <p>Hp Max:<input type="number" class="form-control" data-bind="value:hpMax" /></p>
+            <input type="number" class="form-control" data-bind="value:hpCurrent" />
             <label>Current HP</label>
         </div>
-        <div class="col-md-10 block">
-            <input type="number" data-bind="value:hpTemp" />
+        <div class="col-md-12 block label">
+            <input type="number" class="form-control" data-bind="value:hpTemp" />
             <label>Temp HP</label>
         </div>
-
-        <div class="col-md-3 block">
-            <input type="number" data-bind="value:hd" />
+        <div class="col-md-6 block label">
+            <input type="number" class="form-control" data-bind="value:hd" />
             <label>HD</label>
         </div>
-        <div class="col-md-7 block">
+
+        <div class="col-md-6 block">
             <label>DeathSaves</label>
             <div data-bind="foreach:deathSaves">
                 <label>&#10003;</label>
                 <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave" />
             </div>
             <div data-bind="foreach:deathSaves">
-                <label>&times;</label>
+                <label>&#10007;</label>
                 <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave().indexOf($index()) < 0" />
             </div>
         </div>
+
     </div>
     <div class="col-md-12 block">
-        <select data-bind="options:weaponSet, value:selectedWeapon, optionsText: function(item) {return item.name}"></select>
-        <button data-bind="click:addWeapon">Select</button>
-        <button data-bind="click:removeWeapon">Remove</button>
+        <div class="input-group">
+            <span class="input-group-addon"><button data-bind="click:addWeapon">Add</button></span>
+            <select class="form-control" data-bind="options:weaponSet, value:selectedWeapon, optionsText: function(item) {return item.name}"></select>
+            <span class="input-group-addon"><button data-bind="click:removeWeapon">Remove</button></span>
+        </div>
+
+
+
         <div data-bind="foreach:weapons">
             <div class="col-md-4 well well-sm" data-bind="text:name"></div>
-            <div class="col-md-2 well well-sm" data-bind="text: '+' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod() + proficient()?proficiencyBonus():0)"></div>
+            <div class="col-md-4 well well-sm" data-bind="text: '+' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod() + proficient()?proficiencyBonus():0)"></div>
             <div class="col-md-4 well well-sm" data-bind="text: die() + ' + ' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod())"></div>
         </div>
     </div>
     <div class="col-md-12 block">
-        <input type="text" id="equip" />
-        <button data-bind="click: equip($('#equip').val())">new inventory</button>
-        <div class="col-md-4" data-bind="foreach: money">
-            <div class="block" data-bind="text:$parent.currency(key,value)">
+
+            <div class="input-group">
+                <input class="form-control" type="text" id="equip" />
+                <span class="input-group-addon">
+                    <button data-bind="click: equip($('#equip').val())">new inventory</button>
+                </span>
             </div>
+
+        <div class="col-md-4" data-bind="foreach: money">
+            <span data-bind="text:$parent.currency(key)">
+            </span>
+            <input type="number" class="form-control" data-bind="value: $data.value" />
         </div>
         <div class="col-md-8">
             <ul data-bind="foreach: equipment">
