@@ -1,123 +1,150 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<header class="row">
+    <div class="col-md-6">
+        <input type="text" class="form-control name" data-bind="value:name" />
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <input type="text" class="form-control minimal" data-bind="value:classlevel" />
+            <small>class/level</small>
+            <input type="text" class="form-control minimal" data-bind="value:race" />
+            <small>race</small>
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control minimal" data-bind="value:background" />
+            <small>background</small>
+            <input type="text" class="form-control minimal" data-bind="value:alignment" />
+            <small>alignment</small>
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control minimal" data-bind="value:playername" />
+            <small>player name</small>
+            <input type="number" class="form-control minimal" data-bind="value:xp" />
+            <small>xp</small>
+        </div>
+    </div>
+</header>
 <!-- PRIMARY STATS -->
-<div class="col-md-4">
+<div class="row">
+    <div class="col-md-4">
 
-    <div class="col-md-12 input-group">
-        <div id="statsForm" class="col-md-4 well">
-            <h2>Stats</h2>
-            <div data-bind="foreach:stats">
-                <input type="number" class="form-control" max="20" class="primaryStat form-control form-control" data-bind="value: $data.value" />
-                <label data-bind="text: $data.name"></label>
-                <p data-bind="text: $data.mod"></p>
+        <div class="col-md-12 input-group">
+            <div id="statsForm" class="col-md-4 well">
+                <h2>Stats</h2>
+                <div data-bind="foreach:stats" class="statblock">
+                    <input type="number" max="20" class="primaryStat form-control form-control" data-bind="value: $data.value" />
+                    <label data-bind="text: $data.name"></label>
+                    <p data-bind="text: $data.mod"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-8">
-            <h2><span class="block" data-bind="text: stats()[0].proficiencyBonus()"></span> Proficiency Bonus</h2>
-            <div class="block">
-                <h2>Saves</h2>
-                <ul data-bind="foreach:stats">
-                    <li>
-                        <input type="checkbox" data-bind="checked: proficiency" />
-                        <span data-bind="text: save"></span>
-                        <label data-bind="text: name"></label>
-                    </li>
-                </ul>
+            <div class="col-md-8">
+                <h2><span class="block" data-bind="text: stats()[0].proficiencyBonus()"></span> Proficiency Bonus</h2>
+                <div class="block">
+                    <h2>Saves</h2>
+                    <ul data-bind="foreach:stats">
+                        <li>
+                            <input type="checkbox" data-bind="checked: proficiency, attr: { id: shorthand }" />
+                            <label data-bind="text: save, attr: { for: shorthand }"></label>
+                            <span data-bind="text: name"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block">
+                    <h2>Skills</h2>
+                    <ul data-bind="foreach:skills">
+                        <li>
+                            <input type="checkbox" data-bind="checked: proficiency,  attr: { id: name }" />
+                            <label data-bind="attr: { for: name }"></label>
+                            <input type="checkbox" data-bind="checked: expertise, attr: { id: name }" />
+                            <label data-bind="attr: { for: name }"></label>
+                            <span data-bind="text: value"></span>
+                            <label data-bind="text: name"></label>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="block">
-                <h2>Skills</h2>
-                <ul data-bind="foreach:skills">
-                    <li>
-                        <input type="checkbox" data-bind="checked: proficiency" />
-                        <input type="checkbox" data-bind="checked: expertise" />
-                        <span data-bind="text: value"></span>
-                        <label data-bind="text: name"></label>
-                    </li>
-                </ul>
+
+            <div class="col-md-12">
+                <h2 class="block"><span class="block" data-bind="text: passivePerception()"></span> Passive Perception</h2>
             </div>
-        </div>
 
-        <div class="col-md-12">
-            <h2 class="block"><span class="block" data-bind="text: passivePerception()"></span> Passive Perception</h2>
-        </div>
-
-        <div class="col-md-12">
-            <div class="block">
-                <h2>Proficiencies</h2>
-                <ul data-bind="foreach:proficiencies">
-                    <li data-bind="text: $data"></li>
-                </ul>
-                <h2>Languages</h2>
-                <ul data-bind="foreach:languages">
-                    <li data-bind="text: $data"></li>
-                </ul>
+            <div class="col-md-12">
+                <div class="block">
+                    <h2>Proficiencies</h2>
+                    <ul data-bind="foreach:proficiencies">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                    <h2>Languages</h2>
+                    <ul data-bind="foreach:languages">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-    </div>
-</div>
-
-<!-- SECONDARY STATS -->
-<div class="col-md-4">
-    <div class="col-md-12 block">
-        <div class="col-md-4 block label">
-            <input type="number" class="form-control" data-bind="value:ac" />
-            <label>AC</label>
-        </div>
-        <div class="col-md-4 block label">
-            <input type="number" class="form-control" data-bind="value:init" />
-            <label>Init</label>
-        </div>
-        <div class="col-md-4 block label">
-            <input type="number" class="form-control" data-bind="value:speed" />
-            <label>speed</label>
-        </div>
-        <div class="col-md-12 block label">
-            <p>Hp Max:<input type="number" class="form-control" data-bind="value:hpMax" /></p>
-            <input type="number" class="form-control" data-bind="value:hpCurrent" />
-            <label>Current HP</label>
-        </div>
-        <div class="col-md-12 block label">
-            <input type="number" class="form-control" data-bind="value:hpTemp" />
-            <label>Temp HP</label>
-        </div>
-        <div class="col-md-6 block label">
-            <input type="number" class="form-control" data-bind="value:hd" />
-            <label>HD</label>
-        </div>
-
-        <div class="col-md-6 block">
-            <label>DeathSaves</label>
-            <div data-bind="foreach:deathSaves">
-                <label>&#10003;</label>
-                <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave" />
-            </div>
-            <div data-bind="foreach:deathSaves">
-                <label>&#10007;</label>
-                <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave().indexOf($index()) < 0" />
-            </div>
-        </div>
-
-    </div>
-    <div class="col-md-12 block">
-        <div class="input-group">
-            <span class="input-group-addon"><button data-bind="click:addWeapon">Add</button></span>
-            <select class="form-control" data-bind="options:weaponSet, value:selectedWeapon, optionsText: function(item) {return item.name}"></select>
-            <span class="input-group-addon"><button data-bind="click:removeWeapon">Remove</button></span>
-        </div>
-
-
-
-        <div data-bind="foreach:weapons">
-            <div class="col-md-4 well well-sm" data-bind="text:name"></div>
-            <div class="col-md-4 well well-sm" data-bind="text: '+' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod() + proficient()?proficiencyBonus():0)"></div>
-            <div class="col-md-4 well well-sm" data-bind="text: die() + ' + ' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod())"></div>
         </div>
     </div>
-    <div class="col-md-12 block">
+
+    <!-- SECONDARY STATS -->
+    <div class="col-md-4">
+        <div class="col-md-12 block">
+            <div class="col-md-4 block label">
+                <input type="number" class="form-control" data-bind="value:ac" />
+                <label>AC</label>
+            </div>
+            <div class="col-md-4 block label">
+                <input type="number" class="form-control" data-bind="value:init" />
+                <label>Init</label>
+            </div>
+            <div class="col-md-4 block label">
+                <input type="number" class="form-control" data-bind="value:speed" />
+                <label>speed</label>
+            </div>
+            <div class="col-md-12 block label">
+                <p>Hp Max:<input type="number" class="form-control" data-bind="value:hpMax" /></p>
+                <input type="number" class="form-control" data-bind="value:hpCurrent" />
+                <label>Current HP</label>
+            </div>
+            <div class="col-md-12 block label">
+                <input type="number" class="form-control" data-bind="value:hpTemp" />
+                <label>Temp HP</label>
+            </div>
+            <div class="col-md-6 block label">
+                <input type="number" class="form-control" data-bind="value:hd" />
+                <label>HD</label>
+            </div>
+
+            <div class="col-md-6 block">
+                <label>DeathSaves</label>
+                <div data-bind="foreach:deathSaves">
+                    <label>&#10003;</label>
+                    <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave" />
+                </div>
+                <div data-bind="foreach:deathSaves">
+                    <label>&#10007;</label>
+                    <input type="checkbox" data-bind="value:$index, checked:$parent.deathSave().indexOf($index()) < 0" />
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 block">
+            <div class="input-group">
+                <span class="input-group-addon"><button data-bind="click:addWeapon">Add</button></span>
+                <select class="form-control" data-bind="options:weaponSet, value:selectedWeapon, optionsText: function(item) {return item.name}"></select>
+                <span class="input-group-addon"><button data-bind="click:removeWeapon">Remove</button></span>
+            </div>
+
+
+
+            <div data-bind="foreach:weapons">
+                <div class="col-md-4 well well-sm" data-bind="text:name"></div>
+                <div class="col-md-4 well well-sm" data-bind="text: '+' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod() + proficient()?proficiencyBonus():0)"></div>
+                <div class="col-md-4 well well-sm" data-bind="text: die() + ' + ' + (utils.lookup($parent.stats(), stat(), 'shorthand').mod())"></div>
+            </div>
+        </div>
+        <div class="col-md-12 block">
 
             <div class="input-group">
                 <input class="form-control" type="text" id="equip" />
@@ -126,18 +153,36 @@
                 </span>
             </div>
 
-        <div class="col-md-4" data-bind="foreach: money">
-            <span data-bind="text:$parent.currency(key)">
-            </span>
-            <input type="number" class="form-control" data-bind="value: $data.value" />
+            <div class="col-md-4" data-bind="foreach: money">
+                <span data-bind="text:$parent.currency(key)">
+                </span>
+                <input type="number" class="form-control" data-bind="value: $data.value" />
+            </div>
+            <div class="col-md-8">
+                <ul data-bind="foreach: equipment">
+                    <li class="well well-sm equipment" data-bind="text: $data + ' X ', click: $parent.unequip"></li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-8">
-            <ul data-bind="foreach: equipment">
-                <li class="well well-sm equipment" data-bind="text: $data + ' X ', click: $parent.unequip"></li>
-            </ul>
+    </div>
+    <!-- TERTIARY STATS -->
+    <div class="col-md-4">
+        <div class="col-md-12">
+            <textarea class="form-control" data-bind="value:traits"></textarea>
+        </div>
+        <div class="col-md-12">
+            <textarea class="form-control" data-bind="value:ideals"></textarea>
+        </div>
+        <div class="col-md-12">
+            <textarea class="form-control" data-bind="value:bonds"></textarea>
+        </div>
+        <div class="col-md-12">
+            <textarea class="form-control" data-bind="value:flaws"></textarea>
+        </div>
+        <div class="col-md-12">
+            <textarea class="form-control" data-bind="value:classfeatures"></textarea>
         </div>
     </div>
 </div>
-<!-- TERTIARY STATS -->
-<div class="col-md-4"></div>
+
 <button data-bind="click:store">save</button>
